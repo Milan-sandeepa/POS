@@ -125,6 +125,7 @@ public class ManageCustomersFormController {
         tblCustomers.getSelectionModel().clearSelection();
     }
 
+    // added comment
 
     public void btnSave_OnAction(ActionEvent actionEvent) {
         String id = txtCustomerId.getText();
