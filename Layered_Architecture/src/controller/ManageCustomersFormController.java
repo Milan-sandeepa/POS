@@ -197,6 +197,7 @@ public class ManageCustomersFormController {
         btnAddNewCustomer.fire();
     }
 
+    //test one
 
     boolean existCustomer(String id) throws SQLException, ClassNotFoundException {
         Connection connection = DBConnection.getDbConnection().getConnection();
