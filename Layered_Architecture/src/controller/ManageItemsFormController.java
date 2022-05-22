@@ -143,10 +143,13 @@ public class ManageItemsFormController {
             if (!existItem(code)) {
                 new Alert(Alert.AlertType.ERROR, "There is no such item associated with the id " + code).show();
             }
-            Connection connection = DBConnection.getDbConnection().getConnection();
-            PreparedStatement pstm = connection.prepareStatement("DELETE FROM Item WHERE code=?");
-            pstm.setString(1, code);
-            pstm.executeUpdate();
+//            Connection connection = DBConnection.getDbConnection().getConnection();
+//            PreparedStatement pstm = connection.prepareStatement("DELETE FROM Item WHERE code=?");
+//            pstm.setString(1, code);
+//            pstm.executeUpdate();
+
+            ItemDAOImpl itemDAO = new ItemDAOImpl();
+            itemDAO.deleteItem(code);
 
             tblItems.getItems().remove(tblItems.getSelectionModel().getSelectedItem());
             tblItems.getSelectionModel().clearSelection();
@@ -219,18 +222,18 @@ public class ManageItemsFormController {
 //                pstm.executeUpdate();
 
                 ItemDAOImpl itemDAO = new ItemDAOImpl();
-                itemDAO.saveItem(new ItemDTO(code,description,unitPrice,qtyOnHand));
+                itemDAO.updateItem(new ItemDTO(code,description,unitPrice,qtyOnHand));
 
-                ItemTM selectedItem = tblItems.getSelectionModel().getSelectedItem();
-                selectedItem.setDescription(description);
-                selectedItem.setQtyOnHand(qtyOnHand);
-                selectedItem.setUnitPrice(unitPrice);
-                tblItems.refresh();
             } catch (SQLException e) {
                 new Alert(Alert.AlertType.ERROR, e.getMessage()).show();
             } catch (ClassNotFoundException e) {
                 e.printStackTrace();
             }
+            ItemTM selectedItem = tblItems.getSelectionModel().getSelectedItem();
+            selectedItem.setDescription(description);
+            selectedItem.setQtyOnHand(qtyOnHand);
+            selectedItem.setUnitPrice(unitPrice);
+            tblItems.refresh();
         }
 
         btnAddNewItem.fire();
