@@ -2,6 +2,7 @@ package controller;
 
 import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXTextField;
+import dao.ItemDAO;
 import dao.ItemDAOImpl;
 import db.DBConnection;
 import javafx.application.Platform;
@@ -84,7 +85,7 @@ public class ManageItemsFormController {
 
             //Tight Coupling
             //No DI
-            ItemDAOImpl itemDAO = new ItemDAOImpl();
+            ItemDAO itemDAO = new ItemDAOImpl();
             ArrayList<ItemDTO> allItems = itemDAO.getAllItems();
             for (ItemDTO item:allItems
                  ) {
@@ -154,7 +155,7 @@ public class ManageItemsFormController {
             //Tight Coupling
             //No DI
             //BoilerplateCode
-            ItemDAOImpl itemDAO = new ItemDAOImpl();
+            ItemDAO itemDAO = new ItemDAOImpl();
             itemDAO.deleteItem(code);
 
             tblItems.getItems().remove(tblItems.getSelectionModel().getSelectedItem());
@@ -206,7 +207,7 @@ public class ManageItemsFormController {
                 //Tight Coupling
                 //No DI
                 //BoilerplateCode
-                ItemDAOImpl itemDAO = new ItemDAOImpl();
+                ItemDAO itemDAO = new ItemDAOImpl();
                 itemDAO.saveItem(new ItemDTO(code,description,unitPrice,qtyOnHand));
                 tblItems.getItems().add(new ItemTM(code, description, unitPrice, qtyOnHand));
 
@@ -233,7 +234,7 @@ public class ManageItemsFormController {
                 //Tight Coupling
                 //No DI
                 //BoilerplateCode
-                ItemDAOImpl itemDAO = new ItemDAOImpl();
+                ItemDAO itemDAO = new ItemDAOImpl();
                 itemDAO.updateItem(new ItemDTO(code,description,unitPrice,qtyOnHand));
 
             } catch (SQLException e) {
@@ -261,7 +262,7 @@ public class ManageItemsFormController {
         //Tight Coupling
         //No DI
         //BoilerplateCode
-        ItemDAOImpl itemDAO = new ItemDAOImpl();
+        ItemDAO itemDAO = new ItemDAOImpl();
         return itemDAO.existItem(code);
     }
 
@@ -281,7 +282,7 @@ public class ManageItemsFormController {
             //Tight Coupling
             //No DI
             //BoilerplateCode
-            ItemDAOImpl itemDAO = new ItemDAOImpl();
+            ItemDAO itemDAO = new ItemDAOImpl();
             return itemDAO.generateNewItemID();
 
         } catch (SQLException e) {
