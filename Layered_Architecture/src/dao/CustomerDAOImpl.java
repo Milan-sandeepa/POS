@@ -8,6 +8,8 @@ import java.util.ArrayList;
 
 public class CustomerDAOImpl {
     public ArrayList<CustomerDTO> getAllCustomers() throws SQLException, ClassNotFoundException {
+
+        //Boilerplate code
         Connection connection = DBConnection.getDbConnection().getConnection();
         Statement stm = connection.createStatement();
         ResultSet rst = stm.executeQuery("SELECT * FROM Customer");

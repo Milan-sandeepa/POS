@@ -72,6 +72,9 @@ public class ManageCustomersFormController {
         tblCustomers.getItems().clear();
         /*Get all customers*/
         try {
+
+            //Tight Coupling
+            //No DI
             CustomerDAOImpl customerDAO = new CustomerDAOImpl();
             ArrayList<CustomerDTO> allCustomers = customerDAO.getAllCustomers();
 
@@ -155,6 +158,9 @@ public class ManageCustomersFormController {
                 pstm.setString(3, address);
                 pstm.executeUpdate();*/
 
+                //Tight Coupling
+                //No DI
+                //BoilerplateCode
                 CustomerDAOImpl customerDAO = new CustomerDAOImpl();
                 customerDAO.saveCustomer(new CustomerDTO(id,name,address));
 
@@ -179,6 +185,9 @@ public class ManageCustomersFormController {
                 pstm.setString(3, id);
                 pstm.executeUpdate();*/
 
+                //Tight Coupling
+                //No DI
+                //BoilerplateCode
                 CustomerDAOImpl customerDAO=new CustomerDAOImpl();
                 customerDAO.updateCustomer(new CustomerDTO(id,name,address));
 
@@ -204,6 +213,9 @@ public class ManageCustomersFormController {
 //        PreparedStatement pstm = connection.prepareStatement("SELECT id FROM Customer WHERE id=?");
 //        pstm.setString(1, id);
 
+        //Tight Coupling
+        //No DI
+        //BoilerplateCode
         CustomerDAOImpl customerDAO = new CustomerDAOImpl();
         return customerDAO.existCustomer(id);
     }
@@ -221,6 +233,9 @@ public class ManageCustomersFormController {
 //            pstm.setString(1, id);
 //            pstm.executeUpdate();
 
+            //Tight Coupling
+            //No DI
+            //BoilerplateCode
             CustomerDAOImpl customerDAO = new CustomerDAOImpl();
             customerDAO.deleteCustomer(id);
 
@@ -247,6 +262,9 @@ public class ManageCustomersFormController {
 //                return "C00-001";
 //            }
 
+            //Tight Coupling
+            //No DI
+            //BoilerplateCode
             CustomerDAOImpl customerDAO = new CustomerDAOImpl();
             return customerDAO.generateNewID();
 
