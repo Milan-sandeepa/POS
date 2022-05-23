@@ -83,7 +83,7 @@ public class ManageItemsFormController {
 //                tblItems.getItems().add(new ItemTM(rst.getString("code"), rst.getString("description"), rst.getBigDecimal("unitPrice"), rst.getInt("qtyOnHand")));
 //            }
 
-            //Tight Coupling
+            //loose Coupling
             //No DI
             ItemDAO itemDAO = new ItemDAOImpl();
             ArrayList<ItemDTO> allItems = itemDAO.getAllItems();
@@ -152,7 +152,7 @@ public class ManageItemsFormController {
 //            pstm.setString(1, code);
 //            pstm.executeUpdate();
 
-            //Tight Coupling
+            //loose Coupling
             //No DI
             //BoilerplateCode
             ItemDAO itemDAO = new ItemDAOImpl();
@@ -204,7 +204,7 @@ public class ManageItemsFormController {
 //                pstm.setInt(4, qtyOnHand);
 //                pstm.executeUpdate();
 
-                //Tight Coupling
+                //loose Coupling
                 //No DI
                 //BoilerplateCode
                 ItemDAO itemDAO = new ItemDAOImpl();
@@ -231,7 +231,7 @@ public class ManageItemsFormController {
 //                pstm.setString(4, code);
 //                pstm.executeUpdate();
 
-                //Tight Coupling
+                //loose Coupling
                 //No DI
                 //BoilerplateCode
                 ItemDAO itemDAO = new ItemDAOImpl();
@@ -259,7 +259,7 @@ public class ManageItemsFormController {
 //        pstm.setString(1, code);
 //        return pstm.executeQuery().next();
 
-        //Tight Coupling
+        //loose Coupling
         //No DI
         //BoilerplateCode
         ItemDAO itemDAO = new ItemDAOImpl();
@@ -279,7 +279,7 @@ public class ManageItemsFormController {
 //                return "I00-001";
 //            }
 
-            //Tight Coupling
+            //loose Coupling
             //No DI
             //BoilerplateCode
             ItemDAO itemDAO = new ItemDAOImpl();

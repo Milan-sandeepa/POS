@@ -9,6 +9,8 @@ import java.sql.*;
 import java.util.ArrayList;
 
 public class ItemDAOImpl implements ItemDAO {
+
+    @Override
     public ArrayList<ItemDTO> getAllItems() throws SQLException, ClassNotFoundException {
         Connection connection = DBConnection.getDbConnection().getConnection();
         Statement stm = connection.createStatement();
@@ -25,6 +27,7 @@ public class ItemDAOImpl implements ItemDAO {
         return allitems;
     }
 
+    @Override
     public boolean saveItem(ItemDTO dto) throws SQLException, ClassNotFoundException {
         Connection connection = DBConnection.getDbConnection().getConnection();
         PreparedStatement pstm = connection.prepareStatement("INSERT INTO Item (code, description, unitPrice, qtyOnHand) VALUES (?,?,?,?)");
@@ -35,6 +38,7 @@ public class ItemDAOImpl implements ItemDAO {
         return pstm.executeUpdate()>0;
     }
 
+    @Override
     public boolean updateItem(ItemDTO dto) throws SQLException, ClassNotFoundException {
         Connection connection = DBConnection.getDbConnection().getConnection();
         PreparedStatement pstm = connection.prepareStatement("UPDATE Item SET description=?, unitPrice=?, qtyOnHand=? WHERE code=?");
@@ -45,6 +49,7 @@ public class ItemDAOImpl implements ItemDAO {
         return pstm.executeUpdate()>0;
     }
 
+    @Override
     public boolean deleteItem(String id) throws SQLException, ClassNotFoundException {
         Connection connection = DBConnection.getDbConnection().getConnection();
         PreparedStatement pstm = connection.prepareStatement("DELETE FROM Item WHERE code=?");
@@ -52,6 +57,7 @@ public class ItemDAOImpl implements ItemDAO {
         return pstm.executeUpdate()>0;
     }
 
+    @Override
     public boolean existItem(String id) throws SQLException, ClassNotFoundException {
         Connection connection = DBConnection.getDbConnection().getConnection();
         PreparedStatement pstm = connection.prepareStatement("SELECT code FROM Item WHERE code=?");
@@ -59,6 +65,7 @@ public class ItemDAOImpl implements ItemDAO {
         return pstm.executeQuery().next();
     }
 
+    @Override
     public String generateNewItemID() throws SQLException, ClassNotFoundException {
         Connection connection = DBConnection.getDbConnection().getConnection();
         ResultSet rst = connection.createStatement().executeQuery("SELECT code FROM Item ORDER BY code DESC LIMIT 1;");
