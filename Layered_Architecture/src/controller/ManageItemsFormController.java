@@ -42,6 +42,9 @@ public class ManageItemsFormController {
     public JFXTextField txtUnitPrice;
     public JFXButton btnAddNewItem;
 
+    //property injection
+    private ItemDAO itemDAO = new ItemDAOImpl();
+
     public void initialize() {
         tblItems.getColumns().get(0).setCellValueFactory(new PropertyValueFactory<>("code"));
         tblItems.getColumns().get(1).setCellValueFactory(new PropertyValueFactory<>("description"));
@@ -84,8 +87,7 @@ public class ManageItemsFormController {
 //            }
 
             //loose Coupling
-            //No DI
-            ItemDAO itemDAO = new ItemDAOImpl();
+
             ArrayList<ItemDTO> allItems = itemDAO.getAllItems();
             for (ItemDTO item:allItems
                  ) {
@@ -153,9 +155,7 @@ public class ManageItemsFormController {
 //            pstm.executeUpdate();
 
             //loose Coupling
-            //No DI
-            //BoilerplateCode
-            ItemDAO itemDAO = new ItemDAOImpl();
+
             itemDAO.deleteItem(code);
 
             tblItems.getItems().remove(tblItems.getSelectionModel().getSelectedItem());
@@ -205,9 +205,7 @@ public class ManageItemsFormController {
 //                pstm.executeUpdate();
 
                 //loose Coupling
-                //No DI
-                //BoilerplateCode
-                ItemDAO itemDAO = new ItemDAOImpl();
+
                 itemDAO.saveItem(new ItemDTO(code,description,unitPrice,qtyOnHand));
                 tblItems.getItems().add(new ItemTM(code, description, unitPrice, qtyOnHand));
 
@@ -232,9 +230,7 @@ public class ManageItemsFormController {
 //                pstm.executeUpdate();
 
                 //loose Coupling
-                //No DI
-                //BoilerplateCode
-                ItemDAO itemDAO = new ItemDAOImpl();
+
                 itemDAO.updateItem(new ItemDTO(code,description,unitPrice,qtyOnHand));
 
             } catch (SQLException e) {
@@ -260,9 +256,7 @@ public class ManageItemsFormController {
 //        return pstm.executeQuery().next();
 
         //loose Coupling
-        //No DI
-        //BoilerplateCode
-        ItemDAO itemDAO = new ItemDAOImpl();
+
         return itemDAO.existItem(code);
     }
 
@@ -280,9 +274,7 @@ public class ManageItemsFormController {
 //            }
 
             //loose Coupling
-            //No DI
-            //BoilerplateCode
-            ItemDAO itemDAO = new ItemDAOImpl();
+
             return itemDAO.generateNewItemID();
 
         } catch (SQLException e) {
