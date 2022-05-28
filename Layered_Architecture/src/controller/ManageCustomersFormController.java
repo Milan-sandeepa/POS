@@ -2,9 +2,8 @@ package controller;
 
 import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXTextField;
-import dao.CustomerDAO;
+import dao.CrudDAO;
 import dao.CustomerDAOImpl;
-import db.DBConnection;
 import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -43,7 +42,7 @@ public class ManageCustomersFormController {
     public JFXButton btnAddNewCustomer;
 
     //property injection
-    private CustomerDAO customerDAO =new CustomerDAOImpl();
+    private CrudDAO customerDAO =new CustomerDAOImpl();
 
     public void initialize() {
         tblCustomers.getColumns().get(0).setCellValueFactory(new PropertyValueFactory<>("id"));
@@ -79,7 +78,7 @@ public class ManageCustomersFormController {
 
             //loose Coupling
 
-            ArrayList<CustomerDTO> allCustomers = customerDAO.getAllCustomers();
+            ArrayList<CustomerDTO> allCustomers = customerDAO.getAll();
 
             for (CustomerDTO customer : allCustomers) {
                 tblCustomers.getItems().add(new CustomerTM(customer.getId(), customer.getName(), customer.getAddress()));
@@ -163,7 +162,7 @@ public class ManageCustomersFormController {
 
                 //loose Coupling
 
-                customerDAO.saveCustomer(new CustomerDTO(id,name,address));
+                customerDAO.save(new CustomerDTO(id,name,address));
 
                 tblCustomers.getItems().add(new CustomerTM(id, name, address));
             } catch (SQLException e) {
@@ -188,7 +187,7 @@ public class ManageCustomersFormController {
 
                 //loose Coupling
 
-                customerDAO.updateCustomer(new CustomerDTO(id,name,address));
+                customerDAO.update(new CustomerDTO(id,name,address));
 
             } catch (SQLException e) {
                 new Alert(Alert.AlertType.ERROR, "Failed to update the customer " + id + e.getMessage()).show();
@@ -213,7 +212,7 @@ public class ManageCustomersFormController {
 //        pstm.setString(1, id);
 
         //loose Coupling
-        return customerDAO.existCustomer(id);
+        return customerDAO.exist(id);
     }
 
 
@@ -230,7 +229,7 @@ public class ManageCustomersFormController {
 //            pstm.executeUpdate();
 
             //loose Coupling
-            customerDAO.deleteCustomer(id);
+            customerDAO.delete(id);  
 
             tblCustomers.getItems().remove(tblCustomers.getSelectionModel().getSelectedItem());
             tblCustomers.getSelectionModel().clearSelection();

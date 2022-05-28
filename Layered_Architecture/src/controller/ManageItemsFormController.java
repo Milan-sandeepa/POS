@@ -2,9 +2,8 @@ package controller;
 
 import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXTextField;
-import dao.ItemDAO;
+import dao.CrudDAO;
 import dao.ItemDAOImpl;
-import db.DBConnection;
 import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -43,7 +42,7 @@ public class ManageItemsFormController {
     public JFXButton btnAddNewItem;
 
     //property injection
-    private ItemDAO itemDAO = new ItemDAOImpl();
+    private CrudDAO itemDAO = new ItemDAOImpl();
 
     public void initialize() {
         tblItems.getColumns().get(0).setCellValueFactory(new PropertyValueFactory<>("code"));
@@ -88,7 +87,7 @@ public class ManageItemsFormController {
 
             //loose Coupling
 
-            ArrayList<ItemDTO> allItems = itemDAO.getAllItems();
+            ArrayList<ItemDTO> allItems = itemDAO.getAll();
             for (ItemDTO item:allItems
                  ) {
                 tblItems.getItems().add(new ItemTM(item.getCode(),item.getDescription(),item.getUnitPrice(),item.getQtyOnHand()));
@@ -156,7 +155,7 @@ public class ManageItemsFormController {
 
             //loose Coupling
 
-            itemDAO.deleteItem(code);
+            itemDAO.delete(code);
 
             tblItems.getItems().remove(tblItems.getSelectionModel().getSelectedItem());
             tblItems.getSelectionModel().clearSelection();
@@ -206,7 +205,7 @@ public class ManageItemsFormController {
 
                 //loose Coupling
 
-                itemDAO.saveItem(new ItemDTO(code,description,unitPrice,qtyOnHand));
+                itemDAO.save(new ItemDTO(code,description,unitPrice,qtyOnHand));
                 tblItems.getItems().add(new ItemTM(code, description, unitPrice, qtyOnHand));
 
             } catch (SQLException e) {
@@ -231,7 +230,7 @@ public class ManageItemsFormController {
 
                 //loose Coupling
 
-                itemDAO.updateItem(new ItemDTO(code,description,unitPrice,qtyOnHand));
+                itemDAO.update(new ItemDTO(code,description,unitPrice,qtyOnHand));
 
             } catch (SQLException e) {
                 new Alert(Alert.AlertType.ERROR, e.getMessage()).show();
@@ -257,7 +256,7 @@ public class ManageItemsFormController {
 
         //loose Coupling
 
-        return itemDAO.existItem(code);
+        return itemDAO.exist(code);
     }
 
 
@@ -275,7 +274,7 @@ public class ManageItemsFormController {
 
             //loose Coupling
 
-            return itemDAO.generateNewItemID();
+            return itemDAO.generateNewID();
 
         } catch (SQLException e) {
             new Alert(Alert.AlertType.ERROR, e.getMessage()).show();

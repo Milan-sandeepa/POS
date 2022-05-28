@@ -8,11 +8,9 @@ import java.math.BigDecimal;
 import java.sql.*;
 import java.util.ArrayList;
 
-public class ItemDAOImpl implements ItemDAO {
-
+public class ItemDAOImpl implements CrudDAO<ItemDTO,String> {
     @Override
-    public ArrayList<ItemDTO> getAllItems() throws SQLException, ClassNotFoundException {
-
+    public ArrayList<ItemDTO> getAll() throws SQLException, ClassNotFoundException {
         ResultSet rst = SQLUtil.executeQuery("SELECT * FROM Item");
         ArrayList<ItemDTO> allitems = new ArrayList<>();
 
@@ -23,33 +21,28 @@ public class ItemDAOImpl implements ItemDAO {
     }
 
     @Override
-    public boolean saveItem(ItemDTO dto) throws SQLException, ClassNotFoundException {
-
+    public boolean save(ItemDTO dto) throws SQLException, ClassNotFoundException {
         return SQLUtil.executeUpdate("INSERT INTO Item (code, description, unitPrice, qtyOnHand) VALUES (?,?,?,?)",dto.getCode(),dto.getDescription(),dto.getUnitPrice(),dto.getQtyOnHand());
     }
 
     @Override
-    public boolean updateItem(ItemDTO dto) throws SQLException, ClassNotFoundException {
-
-       return SQLUtil.executeUpdate("UPDATE Item SET description=?, unitPrice=?, qtyOnHand=? WHERE code=?",dto.getDescription(),dto.getUnitPrice(),dto.getQtyOnHand(),dto.getCode());
+    public boolean update(ItemDTO dto) throws SQLException, ClassNotFoundException {
+        return SQLUtil.executeUpdate("UPDATE Item SET description=?, unitPrice=?, qtyOnHand=? WHERE code=?",dto.getDescription(),dto.getUnitPrice(),dto.getQtyOnHand(),dto.getCode());
     }
 
     @Override
-    public boolean deleteItem(String id) throws SQLException, ClassNotFoundException {
-
-        return SQLUtil.executeUpdate("DELETE FROM Item WHERE code=?",id);
-    }
-
-    @Override
-    public boolean existItem(String id) throws SQLException, ClassNotFoundException {
-
+    public boolean exist(String id) throws SQLException, ClassNotFoundException {
         ResultSet rst = SQLUtil.executeQuery("SELECT code FROM Item WHERE code=?", id);
         return rst.next();
     }
 
     @Override
-    public String generateNewItemID() throws SQLException, ClassNotFoundException {
+    public boolean delete(String id) throws SQLException, ClassNotFoundException {
+        return SQLUtil.executeUpdate("DELETE FROM Item WHERE code=?",id);
+    }
 
+    @Override
+    public String generateNewID() throws SQLException, ClassNotFoundException {
         ResultSet rst = SQLUtil.executeQuery("SELECT code FROM Item ORDER BY code DESC LIMIT 1;");
         if (rst.next()) {
             String id = rst.getString("code");
@@ -59,4 +52,5 @@ public class ItemDAOImpl implements ItemDAO {
             return "I00-001";
         }
     }
+
 }
