@@ -24,6 +24,11 @@ public class OderDetailsDAOImpl implements CrudDAO<OrderDetailDTO,String>{
     }
 
     @Override
+    public OrderDetailDTO search(String s) throws SQLException, ClassNotFoundException {
+        return null;
+    }
+
+    @Override
     public boolean exist(String s) throws SQLException, ClassNotFoundException {
         return false;
     }
