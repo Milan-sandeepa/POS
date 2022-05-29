@@ -3,7 +3,14 @@ package controller;
 import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXComboBox;
 import com.jfoenix.controls.JFXTextField;
-import dao.*;
+import dao.custom.CustomerDAO;
+import dao.custom.ItemDAO;
+import dao.custom.OrderDAO;
+import dao.custom.OrderDetailsDAO;
+import dao.custom.impl.CustomerDAOImpl;
+import dao.custom.impl.ItemDAOImpl;
+import dao.custom.impl.OderDAOImpl;
+import dao.custom.impl.OderDetailsDAOImpl;
 import db.DBConnection;
 import javafx.application.Platform;
 import javafx.beans.property.ReadOnlyObjectWrapper;
@@ -56,10 +63,10 @@ public class PlaceOrderFormController {
     public Label lblTotal;
     private String orderId;
 
-    private CrudDAO<CustomerDTO,String> customerDAO = new CustomerDAOImpl();
-    private CrudDAO<ItemDTO,String> itemDAO = new ItemDAOImpl();
-    private CrudDAO<OrderDTO,String> oderDAO = new OderDAOImpl();
-    private CrudDAO<OrderDetailDTO,String> oderDetailsDAO = new OderDetailsDAOImpl();
+    private CustomerDAO customerDAO = new CustomerDAOImpl();
+    private ItemDAO itemDAO = new ItemDAOImpl();
+    private OrderDAO oderDAO = new OderDAOImpl();
+    private OrderDetailsDAO oderDetailsDAO = new OderDetailsDAOImpl();
 
     public void initialize() throws SQLException, ClassNotFoundException {
 
