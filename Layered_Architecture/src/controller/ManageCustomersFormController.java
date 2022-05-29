@@ -1,5 +1,6 @@
 package controller;
 
+import bo.CustomerBOImpl;
 import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXTextField;
 import dao.custom.CustomerDAO;
@@ -42,7 +43,7 @@ public class ManageCustomersFormController {
     public JFXButton btnAddNewCustomer;
 
     //property injection
-    private CustomerDAO customerDAO =new CustomerDAOImpl();
+//    private CustomerDAO customerDAO =new CustomerDAOImpl();
 
     public void initialize() {
         tblCustomers.getColumns().get(0).setCellValueFactory(new PropertyValueFactory<>("id"));
@@ -77,8 +78,12 @@ public class ManageCustomersFormController {
         try {
 
             //loose Coupling
+//            ArrayList<CustomerDTO> allCustomers = customerDAO.getAll();
 
-            ArrayList<CustomerDTO> allCustomers = customerDAO.getAll();
+            //DI
+            //Tight coupling
+            CustomerBOImpl customerBO = new CustomerBOImpl();
+            ArrayList<CustomerDTO> allCustomers = customerBO.getAllCustomers();
 
             for (CustomerDTO customer : allCustomers) {
                 tblCustomers.getItems().add(new CustomerTM(customer.getId(), customer.getName(), customer.getAddress()));
