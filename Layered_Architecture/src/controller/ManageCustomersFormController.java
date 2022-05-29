@@ -158,16 +158,12 @@ public class ManageCustomersFormController {
                 if (existCustomer(id)) {
                     new Alert(Alert.AlertType.ERROR, id + " already exists").show();
                 }
-              /*  Connection connection = DBConnection.getDbConnection().getConnection();
-                PreparedStatement pstm = connection.prepareStatement("INSERT INTO Customer (id,name, address) VALUES (?,?,?)");
-                pstm.setString(1, id);
-                pstm.setString(2, name);
-                pstm.setString(3, address);
-                pstm.executeUpdate();*/
 
-                //loose Coupling
 
-                customerDAO.save(new CustomerDTO(id,name,address));
+                //DI
+                //Tight coupling
+                CustomerBOImpl customerBO = new CustomerBOImpl();
+                customerBO.saveCustomer(new CustomerDTO(id,name,address));
 
                 tblCustomers.getItems().add(new CustomerTM(id, name, address));
             } catch (SQLException e) {
@@ -183,16 +179,11 @@ public class ManageCustomersFormController {
                 if (!existCustomer(id)) {
                     new Alert(Alert.AlertType.ERROR, "There is no such customer associated with the id " + id).show();
                 }
-               /* Connection connection = DBConnection.getDbConnection().getConnection();
-                PreparedStatement pstm = connection.prepareStatement("UPDATE Customer SET name=?, address=? WHERE id=?");
-                pstm.setString(1, name);
-                pstm.setString(2, address);
-                pstm.setString(3, id);
-                pstm.executeUpdate();*/
 
-                //loose Coupling
-
-                customerDAO.update(new CustomerDTO(id,name,address));
+                //DI
+                //Tight coupling
+                CustomerBOImpl customerBO = new CustomerBOImpl();
+                customerBO.updateCustomer(new CustomerDTO(id,name,address));
 
             } catch (SQLException e) {
                 new Alert(Alert.AlertType.ERROR, "Failed to update the customer " + id + e.getMessage()).show();
@@ -212,12 +203,11 @@ public class ManageCustomersFormController {
     //test one
 
     boolean existCustomer(String id) throws SQLException, ClassNotFoundException {
-//        Connection connection = DBConnection.getDbConnection().getConnection();
-//        PreparedStatement pstm = connection.prepareStatement("SELECT id FROM Customer WHERE id=?");
-//        pstm.setString(1, id);
 
-        //loose Coupling
-        return customerDAO.exist(id);
+        //DI
+        //Tight coupling
+        CustomerBOImpl customerBO = new CustomerBOImpl();
+        return customerBO.customerExist(id);
     }
 
 
@@ -228,13 +218,11 @@ public class ManageCustomersFormController {
             if (!existCustomer(id)) {
                 new Alert(Alert.AlertType.ERROR, "There is no such customer associated with the id " + id).show();
             }
-//            Connection connection = DBConnection.getDbConnection().getConnection();
-//            PreparedStatement pstm = connection.prepareStatement("DELETE FROM Customer WHERE id=?");
-//            pstm.setString(1, id);
-//            pstm.executeUpdate();
 
-            //loose Coupling
-            customerDAO.delete(id);  
+            //DI
+            //Tight coupling
+            CustomerBOImpl customerBO = new CustomerBOImpl();
+            customerBO.deleteCustomer(id);
 
             tblCustomers.getItems().remove(tblCustomers.getSelectionModel().getSelectedItem());
             tblCustomers.getSelectionModel().clearSelection();
@@ -249,18 +237,11 @@ public class ManageCustomersFormController {
 
     private String generateNewId() {
         try {
-//            Connection connection = DBConnection.getDbConnection().getConnection();
-//            ResultSet rst = connection.createStatement().executeQuery("SELECT id FROM Customer ORDER BY id DESC LIMIT 1;");
-//            if (rst.next()) {
-//                String id = rst.getString("id");
-//                int newCustomerId = Integer.parseInt(id.replace("C00-", "")) + 1;
-//                return String.format("C00-%03d", newCustomerId);
-//            } else {
-//                return "C00-001";
-//            }
 
-            //loose Coupling
-            return customerDAO.generateNewID();
+            //DI
+            //Tight coupling
+            CustomerBOImpl customerBO = new CustomerBOImpl();
+            return customerBO.generateNewCustomerID();
 
 
         } catch (SQLException e) {
