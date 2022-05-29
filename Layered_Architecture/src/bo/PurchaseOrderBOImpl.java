@@ -57,8 +57,8 @@ public class PurchaseOrderBOImpl implements PurchaseOrderBO {
                     return false;
                 }
 //                //Search & Update Item
-//                ItemDTO item = findItem(detail.getItemCode());
-                ItemDTO item = null;
+
+                ItemDTO item = searchItem(detail.getItemCode());
                 item.setQtyOnHand(item.getQtyOnHand() - detail.getQty());
 
                 boolean update = itemDAO.update(new ItemDTO(item.getCode(), item.getDescription(), item.getUnitPrice(), item.getQtyOnHand()));
