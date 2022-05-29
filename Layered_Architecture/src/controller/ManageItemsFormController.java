@@ -1,5 +1,6 @@
 package controller;
 
+import bo.ItemBOImpl;
 import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXTextField;
 import dao.custom.ItemDAO;
@@ -42,7 +43,6 @@ public class ManageItemsFormController {
     public JFXButton btnAddNewItem;
 
     //property injection
-    private ItemDAO itemDAO = new ItemDAOImpl();
 
     public void initialize() {
         tblItems.getColumns().get(0).setCellValueFactory(new PropertyValueFactory<>("code"));
@@ -77,17 +77,12 @@ public class ManageItemsFormController {
     private void loadAllItems() {
         tblItems.getItems().clear();
         try {
-            /*Get all items*/
-//            Connection connection = DBConnection.getDbConnection().getConnection();
-//            Statement stm = connection.createStatement();
-//            ResultSet rst = stm.executeQuery("SELECT * FROM Item");
-//            while (rst.next()) {
-//                tblItems.getItems().add(new ItemTM(rst.getString("code"), rst.getString("description"), rst.getBigDecimal("unitPrice"), rst.getInt("qtyOnHand")));
-//            }
 
-            //loose Coupling
+            //DI
+            //Tight coupling
+            ItemBOImpl itemBO = new ItemBOImpl();
+            ArrayList<ItemDTO> allItems = itemBO.getAllItems();
 
-            ArrayList<ItemDTO> allItems = itemDAO.getAll();
             for (ItemDTO item:allItems
                  ) {
                 tblItems.getItems().add(new ItemTM(item.getCode(),item.getDescription(),item.getUnitPrice(),item.getQtyOnHand()));
@@ -148,14 +143,11 @@ public class ManageItemsFormController {
             if (!existItem(code)) {
                 new Alert(Alert.AlertType.ERROR, "There is no such item associated with the id " + code).show();
             }
-//            Connection connection = DBConnection.getDbConnection().getConnection();
-//            PreparedStatement pstm = connection.prepareStatement("DELETE FROM Item WHERE code=?");
-//            pstm.setString(1, code);
-//            pstm.executeUpdate();
 
-            //loose Coupling
-
-            itemDAO.delete(code);
+            //DI
+            //Tight coupling
+            ItemBOImpl itemBO = new ItemBOImpl();
+            itemBO.deleteItem(code);
 
             tblItems.getItems().remove(tblItems.getSelectionModel().getSelectedItem());
             tblItems.getSelectionModel().clearSelection();
@@ -194,18 +186,13 @@ public class ManageItemsFormController {
                 if (existItem(code)) {
                     new Alert(Alert.AlertType.ERROR, code + " already exists").show();
                 }
-                //Save Item
-//                Connection connection = DBConnection.getDbConnection().getConnection();
-//                PreparedStatement pstm = connection.prepareStatement("INSERT INTO Item (code, description, unitPrice, qtyOnHand) VALUES (?,?,?,?)");
-//                pstm.setString(1, code);
-//                pstm.setString(2, description);
-//                pstm.setBigDecimal(3, unitPrice);
-//                pstm.setInt(4, qtyOnHand);
-//                pstm.executeUpdate();
 
-                //loose Coupling
+                //DI
+                //Tight coupling
 
-                itemDAO.save(new ItemDTO(code,description,unitPrice,qtyOnHand));
+                ItemBOImpl itemBO = new ItemBOImpl();
+                itemBO.saveItem(new ItemDTO(code,description,unitPrice,qtyOnHand));
+
                 tblItems.getItems().add(new ItemTM(code, description, unitPrice, qtyOnHand));
 
             } catch (SQLException e) {
@@ -219,18 +206,12 @@ public class ManageItemsFormController {
                 if (!existItem(code)) {
                     new Alert(Alert.AlertType.ERROR, "There is no such item associated with the id " + code).show();
                 }
-                /*Update Item*/
-//                Connection connection = DBConnection.getDbConnection().getConnection();
-//                PreparedStatement pstm = connection.prepareStatement("UPDATE Item SET description=?, unitPrice=?, qtyOnHand=? WHERE code=?");
-//                pstm.setString(1, description);
-//                pstm.setBigDecimal(2, unitPrice);
-//                pstm.setInt(3, qtyOnHand);
-//                pstm.setString(4, code);
-//                pstm.executeUpdate();
 
-                //loose Coupling
+                //DI
+                //Tight coupling
 
-                itemDAO.update(new ItemDTO(code,description,unitPrice,qtyOnHand));
+                ItemBOImpl itemBO = new ItemBOImpl();
+                itemBO.updateItem(new ItemDTO(code,description,unitPrice,qtyOnHand));
 
             } catch (SQLException e) {
                 new Alert(Alert.AlertType.ERROR, e.getMessage()).show();
@@ -249,32 +230,21 @@ public class ManageItemsFormController {
 
 
     private boolean existItem(String code) throws SQLException, ClassNotFoundException {
-//        Connection connection = DBConnection.getDbConnection().getConnection();
-//        PreparedStatement pstm = connection.prepareStatement("SELECT code FROM Item WHERE code=?");
-//        pstm.setString(1, code);
-//        return pstm.executeQuery().next();
 
-        //loose Coupling
-
-        return itemDAO.exist(code);
+        //DI
+        //Tight coupling
+        ItemBOImpl itemBO = new ItemBOImpl();
+        return itemBO.itemExist(code);
     }
 
 
     private String generateNewId() {
         try {
-//            Connection connection = DBConnection.getDbConnection().getConnection();
-//            ResultSet rst = connection.createStatement().executeQuery("SELECT code FROM Item ORDER BY code DESC LIMIT 1;");
-//            if (rst.next()) {
-//                String id = rst.getString("code");
-//                int newItemId = Integer.parseInt(id.replace("I00-", "")) + 1;
-//                return String.format("I00-%03d", newItemId);
-//            } else {
-//                return "I00-001";
-//            }
 
-            //loose Coupling
-
-            return itemDAO.generateNewID();
+            //DI
+            //Tight coupling
+            ItemBOImpl itemBO = new ItemBOImpl();
+            return itemBO.generateNewItemCode();
 
         } catch (SQLException e) {
             new Alert(Alert.AlertType.ERROR, e.getMessage()).show();
