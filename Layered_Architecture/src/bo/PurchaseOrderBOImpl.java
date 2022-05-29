@@ -9,6 +9,7 @@ import dao.custom.impl.ItemDAOImpl;
 import dao.custom.impl.OderDAOImpl;
 import dao.custom.impl.OderDetailsDAOImpl;
 import db.DBConnection;
+import model.CustomerDTO;
 import model.ItemDTO;
 import model.OrderDTO;
 import model.OrderDetailDTO;
@@ -16,6 +17,7 @@ import model.OrderDetailDTO;
 import java.sql.Connection;
 import java.sql.SQLException;
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.List;
 
 public class PurchaseOrderBOImpl {
@@ -30,7 +32,6 @@ public class PurchaseOrderBOImpl {
         Connection connection = null;
 
             connection = DBConnection.getDbConnection().getConnection();
-
             /*if order id already exist*/
             if (oderDAO.exist(orderId)) {
 
@@ -70,7 +71,33 @@ public class PurchaseOrderBOImpl {
             connection.commit();
             connection.setAutoCommit(true);
             return true;
+    }
 
+    public CustomerDTO searchCustomer(String id) throws SQLException, ClassNotFoundException {
+        return customerDAO.search(id);
+    }
 
+    public ItemDTO searchItem(String id) throws SQLException, ClassNotFoundException {
+        return itemDAO.search(id);
+    }
+
+    public boolean checkItemIsAvailable(String code) throws SQLException, ClassNotFoundException {
+       return itemDAO.exist(code);
+    }
+
+    public boolean checkCustomerIsAvailable(String id) throws SQLException, ClassNotFoundException {
+        return customerDAO.exist(id);
+    }
+
+    public String generateNewOrderID() throws SQLException, ClassNotFoundException {
+        return oderDAO.generateNewID();
+    }
+
+    public ArrayList<CustomerDTO> gerAllCustomers() throws SQLException, ClassNotFoundException {
+        return customerDAO.getAll();
+    }
+
+    public ArrayList<ItemDTO> gerAllItem() throws SQLException, ClassNotFoundException {
+        return itemDAO.getAll();
     }
 }
