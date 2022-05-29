@@ -1,14 +1,9 @@
 package bo.custom.impl;
 
 import bo.custom.PurchaseOrderBO;
-import dao.custom.CustomerDAO;
-import dao.custom.ItemDAO;
-import dao.custom.OrderDAO;
-import dao.custom.OrderDetailsDAO;
-import dao.custom.impl.CustomerDAOImpl;
-import dao.custom.impl.ItemDAOImpl;
-import dao.custom.impl.OderDAOImpl;
-import dao.custom.impl.OderDetailsDAOImpl;
+import dao.DAOFactory;
+import dao.custom.*;
+import dao.custom.impl.*;
 import db.DBConnection;
 import model.CustomerDTO;
 import model.ItemDTO;
@@ -23,10 +18,11 @@ import java.util.List;
 
 public class PurchaseOrderBOImpl implements PurchaseOrderBO {
 
-    private CustomerDAO customerDAO = new CustomerDAOImpl();
-    private ItemDAO itemDAO = new ItemDAOImpl();
-    private OrderDAO oderDAO = new OderDAOImpl();
-    private OrderDetailsDAO oderDetailsDAO = new OderDetailsDAOImpl();
+    private CustomerDAO customerDAO = (CustomerDAO) DAOFactory.getDaoFactory().getDAO(DAOFactory.DAOTypes.CUSTOMER);
+    private ItemDAO itemDAO = (ItemDAO) DAOFactory.getDaoFactory().getDAO(DAOFactory.DAOTypes.ITEM);
+    private OrderDAO oderDAO = (OrderDAO) DAOFactory.getDaoFactory().getDAO(DAOFactory.DAOTypes.ORDER);
+    private OrderDetailsDAO oderDetailsDAO = (OrderDetailsDAO) DAOFactory.getDaoFactory().getDAO(DAOFactory.DAOTypes.ORDERDETAILS);
+    private QueryDAO queryDAO = (QueryDAO) DAOFactory.getDaoFactory().getDAO(DAOFactory.DAOTypes.QUERYDAO);
 
     @Override
     public boolean purchaseOrder(String orderId, LocalDate orderDate, String customerId, List<OrderDetailDTO> orderDetails) throws SQLException, ClassNotFoundException {
