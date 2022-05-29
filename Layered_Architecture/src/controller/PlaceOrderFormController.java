@@ -63,10 +63,10 @@ public class PlaceOrderFormController {
     public Label lblTotal;
     private String orderId;
 
-    private CustomerDAO customerDAO = new CustomerDAOImpl();
-    private ItemDAO itemDAO = new ItemDAOImpl();
-    private OrderDAO oderDAO = new OderDAOImpl();
-    private OrderDetailsDAO oderDetailsDAO = new OderDetailsDAOImpl();
+//    private CustomerDAO customerDAO = new CustomerDAOImpl();
+//    private ItemDAO itemDAO = new ItemDAOImpl();
+//    private OrderDAO oderDAO = new OderDAOImpl();
+//    private OrderDetailsDAO oderDetailsDAO = new OderDetailsDAOImpl();
 
     public void initialize() throws SQLException, ClassNotFoundException {
 
@@ -368,67 +368,67 @@ public class PlaceOrderFormController {
     }
 
     public boolean saveOrder(String orderId, LocalDate orderDate, String customerId, List<OrderDetailDTO> orderDetails) {
-        /*Transaction*/
-        Connection connection = null;
-        try {
+//        /*Transaction*/
+//        Connection connection = null;
+//        try {
+////            connection = DBConnection.getDbConnection().getConnection();
+////            PreparedStatement stm = connection.prepareStatement("SELECT oid FROM `Orders` WHERE oid=?");
+////            stm.setString(1, orderId);
 //            connection = DBConnection.getDbConnection().getConnection();
-//            PreparedStatement stm = connection.prepareStatement("SELECT oid FROM `Orders` WHERE oid=?");
-//            stm.setString(1, orderId);
-            connection = DBConnection.getDbConnection().getConnection();
-            //DI
-
-            /*if order id already exist*/
-            if (oderDAO.exist(orderId)) {
-
-            }
-
-            connection.setAutoCommit(false);
-//            stm = connection.prepareStatement("INSERT INTO `Orders` (oid, date, customerID) VALUES (?,?,?)");
-//            stm.setString(1, orderId);
-//            stm.setDate(2, Date.valueOf(orderDate));
-//            stm.setString(3, customerId);
-
-            boolean save = oderDAO.save(new OrderDTO(orderId, orderDate, customerId));
-
-            if (!save) {
-                connection.rollback();
-                connection.setAutoCommit(true);
-                return false;
-            }
-
-            for (OrderDetailDTO detail : orderDetails) {
-
-                boolean save1 = oderDetailsDAO.save(detail);
-
-                if (!save1) {
-                    connection.rollback();
-                    connection.setAutoCommit(true);
-                    return false;
-                }
-
-//                //Search & Update Item
-                ItemDTO item = findItem(detail.getItemCode());
-                item.setQtyOnHand(item.getQtyOnHand() - detail.getQty());
-
-                boolean update = itemDAO.update(new ItemDTO(item.getCode(), item.getDescription(), item.getUnitPrice(), item.getQtyOnHand()));
-
-                if (!update) {
-                    connection.rollback();
-                    connection.setAutoCommit(true);
-                    return false;
-                }
-            }
-
-            connection.commit();
-            connection.setAutoCommit(true);
-            return true;
-
-        } catch (SQLException throwables) {
-            throwables.printStackTrace();
-        } catch (ClassNotFoundException e) {
-            e.printStackTrace();
-        }
-        return false;
+//            //DI
+//
+//            /*if order id already exist*/
+//            if (oderDAO.exist(orderId)) {
+//
+//            }
+//
+//            connection.setAutoCommit(false);
+////            stm = connection.prepareStatement("INSERT INTO `Orders` (oid, date, customerID) VALUES (?,?,?)");
+////            stm.setString(1, orderId);
+////            stm.setDate(2, Date.valueOf(orderDate));
+////            stm.setString(3, customerId);
+//
+//            boolean save = oderDAO.save(new OrderDTO(orderId, orderDate, customerId));
+//
+//            if (!save) {
+//                connection.rollback();
+//                connection.setAutoCommit(true);
+//                return false;
+//            }
+//
+//            for (OrderDetailDTO detail : orderDetails) {
+//
+//                boolean save1 = oderDetailsDAO.save(detail);
+//
+//                if (!save1) {
+//                    connection.rollback();
+//                    connection.setAutoCommit(true);
+//                    return false;
+//                }
+//
+////                //Search & Update Item
+//                ItemDTO item = findItem(detail.getItemCode());
+//                item.setQtyOnHand(item.getQtyOnHand() - detail.getQty());
+//
+//                boolean update = itemDAO.update(new ItemDTO(item.getCode(), item.getDescription(), item.getUnitPrice(), item.getQtyOnHand()));
+//
+//                if (!update) {
+//                    connection.rollback();
+//                    connection.setAutoCommit(true);
+//                    return false;
+//                }
+//            }
+//
+//            connection.commit();
+//            connection.setAutoCommit(true);
+//            return true;
+//
+//        } catch (SQLException throwables) {
+//            throwables.printStackTrace();
+//        } catch (ClassNotFoundException e) {
+//            e.printStackTrace();
+//        }
+//        return false;
     }
 
 
