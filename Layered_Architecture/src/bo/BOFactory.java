@@ -31,7 +31,8 @@ public class BOFactory {
 
             case PURCHASE_ORDER:
                 return new PurchaseOrderBOImpl();
-
+            default:
+                return null;
         }
     }
 }
